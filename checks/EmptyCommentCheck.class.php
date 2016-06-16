@@ -19,7 +19,7 @@ class EmptyCommentCheck extends BasePreCommitCheck {
     // Only consider Words in the count
     $valuableComment = preg_replace('/\W+/', '', $valuableComment); 
 
-    if (strlen($valuableComment) < 5){
+    if (strlen($valuableComment) < 10){
       return 'Commit message has been rejected (too short). Please provide more details about changes you want to commit.';
     }
   }

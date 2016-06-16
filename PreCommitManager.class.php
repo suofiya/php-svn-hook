@@ -110,12 +110,12 @@ class PreCommitManager {
   public function getErrorMsg(){
     // Generate a human message with errors
     $resume = "The following pre commit check fail:\n";
-    $detail = strtoupper("\nDetail of the checks errors:\n");
+    $detail = strtoupper("\n==== Detail of the checks errors:\n");
     foreach ($this->checksWithError as $check){
       $resume .= ' * '.$check->getTitle().': '.$check->renderErrorSummary()."\n";
-      $detail .= $check->getTitle().":\n".$check->renderErrorDetail()."\n".$check->renderInstructions()."\n";
+      $detail .= ' * '.$check->getTitle().":\n".$check->renderErrorDetail()."\n".$check->renderInstructions()."\n";
     }
-    return "\n\nPRE COMMIT HOOK FAIL:\n".$resume.$detail;
+    return "\n\n==== PRE COMMIT HOOK FAIL:\n".$resume.$detail;
   }
    
 }
