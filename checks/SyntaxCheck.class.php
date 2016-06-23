@@ -21,14 +21,18 @@ class SyntaxCheck extends BasePreCommitCheck {
 
   public function checkFullFile($lines, $filename){
 
-    //exec("svnlook cat $this->repoName $filename -t $this->trxNum | php -l ", $result); 
-    //repoName和trxNum为Manager工厂类属性，不属于具体每个Check类，因为不能使用svnlook直接获取修改文件内容；
-    // lines为文件行内容array 
-    exec('echo "'.implode(PHP_EOL, $lines).'"| /usr/bin/php -l', $result);
+    $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+    // 只检查php文件
+    if( !empty($file_extension) && strtolower($file_extension) === 'php' ) {
+        //exec("svnlook cat $this->repoName $filename -t $this->trxNum | php -l ", $result);
+        //repoName和trxNum为Manager工厂类属性，不属于具体每个Check类，因为不能使用svnlook直接获取修改文件内容；
+        // lines为文件行内容array
+         exec('echo "'.implode(PHP_EOL, $lines).'"| /usr/bin/php -l', $result);
 
-    if ( count($result) <> 1 ){
-      $rs = $result[1] . " ($filename)";
-      return $rs;
+        if ( count($result) <> 1 ){
+            $rs = $result[1] . " ($filename)";
+            return $rs;
+        }
     }
 
   }
